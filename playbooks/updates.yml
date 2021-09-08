@@ -1,0 +1,27 @@
+---
+
+- hosts: pi:debian
+  become: true
+  tasks:
+  - name: Update Repositories
+    apt:
+        update_cache: yes
+        autoclean: yes
+  - name: Perform Full Upgrade
+    apt:
+        upgrade: dist
+        autoremove: yes
+
+- hosts: arch
+  become: true
+  handlers:
+    - name: apply gtk theme
+      command: /home/jacob/.config/gtk_theme/set_theme.sh
+  tasks:
+  - name: Update Repositories
+    pacman:
+        update_cache: yes
+  - name: Upgrade Packages
+    pacman:
+        upgrade: yes
+    notify: apply gtk theme

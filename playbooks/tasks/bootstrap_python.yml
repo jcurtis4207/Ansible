@@ -1,0 +1,9 @@
+---
+- block:
+    - name: Test Connection
+      stat:
+        path: /etc/hosts
+  rescue:
+    - name: Bootstrap Python
+      become: true
+      raw: apt install python3 python-is-python3 --yes

@@ -1,0 +1,52 @@
+---
+- name: Disable Root Login
+  become: true
+  replace:
+    path: /etc/ssh/sshd_config
+    regexp: '.*PermitRootLogin.*'
+    replace: 'PermitRootLogin no'
+
+- name: Generate New SSH Key
+  command: ssh-keygen -q -t ed25519 -a 100 -f /home/{{ ansible_user }}/.ssh/id_ed25519 -C "" -N ""
+  args:
+    creates: /home/{{ ansible_user }}/.ssh/id_ed25519
+
+- name: Add Beowulf SSH Key
+  lineinfile:
+    path: /home/{{ ansible_user }}/.ssh/authorized_keys
+    line: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILbBc7ct57HcSGWoIdqjDPhEmU5iC8hBoEMHao68eN6C jacob@Beowulf"
+
+- name: Find SSH Host Keys
+  become: true
+  find:
+    paths: /etc/ssh
+    recurse: no
+    patterns: "ssh_host_*"
+  register: file_to_delete
+
+- name: Delete SSH Host Keys
+  become: true
+  file:
+    path: "{{ item['path'] }}"
+    state: absent
+  no_log: True
+  with_items: "{{ file_to_delete['files'] }}"
+
+- name: Generate New ECDSA Host Key
+  become: true
+  command: ssh-keygen -q -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -C "" -N ""
+  args:
+    creates: /etc/ssh/ssh_host_ecdsa_key
+
+- name: Generate New ED25519 Host Key
+  become: true
+  command: ssh-keygen -q -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -C "" -N ""
+  args:
+    creates: /etc/ssh/ssh_host_ed25519_key
+
+- name: Generate New RSA Host Key
+  become: true
+  command: ssh-keygen -q -t rsa -f /etc/ssh/ssh_host_rsa_key -C "" -N ""
+  args:
+    creates: /etc/ssh/ssh_host_rsa_key
+

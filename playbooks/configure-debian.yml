@@ -1,0 +1,40 @@
+---
+- hosts: new
+  gather_facts: no
+
+  vars_prompt:
+    - name: static_ip
+      prompt: What is the new static ip?
+      private: no
+    - name: hostname
+      prompt: What is the new hostname?
+      private: no
+
+  vars:
+    ansible_host_key_checking: False
+    ansible_ssh_host_key_checking: False
+    ansible_paramiko_host_key_checking: False
+    ansible_ssh_password: "{{ ansible_become_pass }}"
+    ansible_password: "{{ ansible_become_pass }}"
+    ansible_user: jacob
+    distro_variable: DEBIAN
+
+  module_defaults:
+    apt:
+      force_apt_get: yes
+
+  tasks:
+      - include: tasks/bootstrap_python.yml
+      - include: tasks/set_ip_debian.yml
+      - include: tasks/copy_ansible_ssh_key.yml
+      - include: tasks/setup_ssh.yml
+      - include: tasks/set_locale.yml
+      - include: tasks/apt_upgrade.yml
+      - include: tasks/apt_install_packages.yml
+      - include: tasks/install_vundle.yml
+      - include: tasks/deploy_dotfiles.yml
+      - include: tasks/set_hostname.yml
+
+      - name: Reboot Machine
+        become: true
+        command: shutdown -r 1
