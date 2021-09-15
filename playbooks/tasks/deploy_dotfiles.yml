@@ -27,7 +27,7 @@
     regexp: '^distro=.*'
     replace: 'distro={{ distro_variable }}'
 
-- name: Set User Varialbe
+- name: Set User Variable
   replace:
     path: "/home/{{ ansible_user }}/.bash_aliases"
     regexp: '^user=.*'

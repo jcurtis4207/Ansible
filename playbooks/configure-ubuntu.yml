@@ -32,7 +32,7 @@
       - include: tasks/apt_install_packages.yml
       - include: tasks/install_vundle.yml
       - include: tasks/deploy_dotfiles.yml
-      - include: tasks/set_ip_debian.yml
+      - include: tasks/set_ip_ubuntu.yml
       - include: tasks/set_hostname.yml
 
       - name: Reboot Machine

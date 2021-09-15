@@ -25,7 +25,6 @@
 
   tasks:
       - include: tasks/bootstrap_python.yml
-      - include: tasks/set_ip_pi.yml
       - include: tasks/copy_ansible_ssh_key.yml
       - include: tasks/setup_ssh.yml
       - include: tasks/set_locale.yml
@@ -34,6 +33,7 @@
       - include: tasks/install_vundle.yml
       - include: tasks/deploy_dotfiles.yml
       - include: tasks/set_hostname.yml
+      - include: tasks/set_ip_pi.yml
       - include: tasks/change_password.yml
 
       - name: Reboot Machine
