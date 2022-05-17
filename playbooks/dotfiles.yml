@@ -1,48 +1,8 @@
 ---
-
 - hosts: all 
-
   handlers:
-    - name: Find Dotfiles
-      find:
-        paths: "/dev/shm/Dotfiles"
-        recurse: no
-        hidden: True
-      register: file_to_copy
-      listen: "sync dotfiles"
-
-    - name: Copy Dotfiles
-      copy:
-        remote_src: True
-        src: "{{ item.path}}"
-        dest: /home/{{ ansible_user }}/
-      no_log: True
-      with_items: "{{ file_to_copy.files }}"
-      listen: "sync dotfiles"
-
-    - name: Set Distro Variable
-      replace:
-        path: "/home/{{ ansible_user }}/.bash_aliases"
-        regexp: '^distro=.*'
-        replace: 'distro={{ distro_variable }}'
-      listen: "sync dotfiles"
-
-    - name: Set User Varialbe
-      replace:
-        path: "/home/{{ ansible_user }}/.bash_aliases"
-        regexp: '^user=.*'
-        replace: 'user={{ ansible_user }}'
-      listen: "sync dotfiles"
-
-    - name: Install Vim Plugins
-      command: vim -E -s -c "source /home/{{ ansible_user }}/.vimrc" -c PluginInstall -c qa
-      listen: "sync dotfiles"
+    - import_tasks: handlers/update_dotfiles.yml
 
   tasks:
-    - name: Clone Dotfiles Repo
-      git:
-        repo: 'https://github.com/jcurtis4207/Dotfiles.git'
-        dest: /dev/shm/Dotfiles
-        clone: yes
-        update: yes
-      notify: "sync dotfiles"
+    - name: Deploy Dotfiles
+      include_tasks: tasks/deploy_dotfiles.yml

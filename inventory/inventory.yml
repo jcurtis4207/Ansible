@@ -19,6 +19,6 @@ all:
     arch:
       hosts:
         sigurd:
-    # new:
-    #   hosts:
-    #       192.168.1.25:
+    new:
+      hosts:
+          192.168.1.42:
