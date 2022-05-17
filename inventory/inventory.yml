@@ -3,22 +3,22 @@ all:
   children:
     pi:
       hosts:
-        # glaurung
-        192.168.1.77:
-        # ungoliant
-        192.168.1.88:
+        glaurung:
+        ungoliant:
     debian:
       hosts:
-        # gothmog
-        192.168.1.111:
-        192.168.1.201:
-        192.168.1.202:
-        192.168.1.204:
-        192.168.1.207:
-        192.168.1.208:
+        gothmog:
+      children:
+        sauron_vms:
+          hosts:
+            ansible_controller:
+            docker:
+            lamp:
+            gitea:
+            plex:
     arch:
       hosts:
-        # sigurd
-        192.168.1.102:
+        sigurd:
     # new:
     #   hosts:
+    #       192.168.1.25:

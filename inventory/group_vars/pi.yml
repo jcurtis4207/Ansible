@@ -1,3 +1,2 @@
 ---
 distro_variable: DEBIAN
-ansible_user: jacob

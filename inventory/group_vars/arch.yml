@@ -1,3 +1,2 @@
 ---
 distro_variable: ARCH
-ansible_user: jacob
