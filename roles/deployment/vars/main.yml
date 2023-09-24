@@ -1,0 +1,2 @@
+---
+__user_home: "{{ user_info.home }}"

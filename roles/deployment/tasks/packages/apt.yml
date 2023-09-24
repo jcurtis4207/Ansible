@@ -1,0 +1,13 @@
+---
+- name: Upgrade Packages
+  become: true
+  apt:
+    update_cache: yes
+    upgrade: full
+    autoremove: yes
+
+- name: Install apt packages  # noqa: package-latest
+  become: true
+  apt:
+    name: "{{ deployment_apt_package_list }}"
+    state: latest

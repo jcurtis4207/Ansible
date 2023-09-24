@@ -1,0 +1,37 @@
+---
+- name: Find Dotfiles
+  find:
+    paths: "{{ deployment_dotfiles_directory }}"
+    recurse: no
+    hidden: True
+  register: file_to_copy
+  listen: "sync dotfiles"
+
+- name: Copy Dotfiles
+  copy:
+    remote_src: True
+    src: "{{ item.path }}"
+    dest: "{{ __user_home }}"
+    mode: '644'
+  no_log: True
+  with_items: "{{ file_to_copy.files }}"
+  listen: "sync dotfiles"
+
+- name: Set Distro Variable
+  replace:
+    path: "{{ __user_home }}/.bash_aliases"
+    regexp: '^distro=.*'
+    replace: 'distro={{ distro_variable }}'
+  listen: "sync dotfiles"
+
+- name: Set User Varialbe
+  replace:
+    path: "{{ __user_home }}/.bash_aliases"
+    regexp: '^user=.*'
+    replace: 'user={{ ansible_user }}'
+  listen: "sync dotfiles"
+
+- name: Install Vim Plugins
+  command: vim -E -s -c "source {{ __user_home }}/.vimrc" -c PluginInstall -c qa
+  listen: "sync dotfiles"
+  changed_when: yes

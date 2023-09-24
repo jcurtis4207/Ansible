@@ -1,0 +1,40 @@
+---
+- name: Update all packages
+  hosts: all
+  become: yes
+  handlers:
+    - name: Apply gtk theme
+      command: /home/jacob/.config/gtk_theme/set_theme.sh
+      changed_when: yes
+  tasks:
+    - name: Debian
+      when: ansible_os_family == 'Debian'
+      block:
+        - name: Apt upgrade
+          apt:
+            update_cache: yes
+            autoclean: yes
+            upgrade: dist
+            autoremove: yes
+
+    - name: Redhat
+      when: ansible_os_family in ['Rocky', 'Redhat']
+      block:
+        - name: Yum upgrade
+          yum:
+            name: '*'
+            state: latest
+            update_only: yes
+            update_cache: yes
+
+    - name: Arch
+      when: ansible_os_family == 'Archlinux'
+      block:
+        - name: Update pacman repositories
+          pacman:
+            update_cache: yes
+
+        - name: Upgrade pacman packages
+          pacman:
+            upgrade: yes
+          notify: apply gtk theme

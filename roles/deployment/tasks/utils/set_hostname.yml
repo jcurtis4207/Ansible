@@ -1,0 +1,14 @@
+---
+- name: Change Hosts File
+  become: true
+  replace:
+    path: /etc/hosts
+    regexp: '^127\.0\.1\.1.*'
+    replace: "127.0.1.1    {{ deployment_hostname }}"
+
+- name: Change Hostname File
+  become: true
+  replace:
+    path: /etc/hostname
+    regexp: '^.*'
+    replace: "{{ deployment_hostname }}"

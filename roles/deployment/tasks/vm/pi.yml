@@ -1,0 +1,15 @@
+---
+- name: Set static IP
+  include_tasks: static_ip/pi.yml
+  when: deployment_static_ip is defined
+
+- name: Change user password
+  include_tasks: utils/change_password.yml
+
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: Reboot Machine
+  become: true
+  command: shutdown -r 1
+  changed_when: yes

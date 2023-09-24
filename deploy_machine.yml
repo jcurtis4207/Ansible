@@ -1,0 +1,8 @@
+---
+- name: Deploy New Machine
+  hosts: new
+  gather_facts: no
+  tasks:
+    - name: Deploy
+      import_role:
+        name: deployment

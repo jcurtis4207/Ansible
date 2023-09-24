@@ -1,0 +1,16 @@
+---
+- name: Generate Locale
+  become: true
+  locale_gen:
+    name: en_US.UTF-8
+    state: present
+
+- name: Set Locale
+  become: true
+  command: localectl set-locale LANG=en_US.UTF-8 LANGUAGE=en_US:en
+  changed_when: yes
+
+- name: Set Timezone
+  become: true
+  timezone:
+    name: America/New_York

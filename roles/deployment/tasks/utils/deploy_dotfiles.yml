@@ -1,0 +1,8 @@
+---
+- name: Clone Dotfiles Repo  # noqa: latest
+  git:
+    repo: 'https://github.com/jcurtis4207/Dotfiles.git'
+    dest: "{{ deployment_dotfiles_directory }}"
+    clone: yes
+    update: yes
+  notify: sync dotfiles

@@ -1,0 +1,14 @@
+---
+- name: Upgrade Packages
+  become: true
+  yum:
+    name: "*"
+    state: latest
+    update_only: yes
+    update_cache: yes
+
+- name: Install Packages
+  become: true
+  yum:
+    name: "{{ deployment_dnf_package_list }}"
+    state: latest  # noqa: package-latest

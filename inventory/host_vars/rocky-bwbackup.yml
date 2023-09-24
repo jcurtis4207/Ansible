@@ -1,0 +1,9 @@
+---
+ansible_host: 192.168.1.214
+ansible_user: root
+
+
+# ---------------------------------------
+#  deployment role variables
+# ---------------------------------------
+deployment_container_id: 214

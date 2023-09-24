@@ -1,0 +1,42 @@
+---
+- name: Gather gather_facts
+  setup:
+
+- name: Get user home dir
+  user:
+    name: "{{ ansible_user }}"
+    state: present
+  register: user_info
+
+- name: Bootstrap python
+  include_tasks: bootstrap_python/{{ ansible_pkg_mgr }}.yml
+
+- name: Copy ansible ssh key
+  include_tasks: utils/copy_ansible_ssh_key.yml
+
+- name: Setup ssh
+  include_tasks: utils/setup_ssh.yml
+
+- name: Set locale
+  include_tasks: locale/{{ ansible_os_family | lower }}.yml
+
+- name: Install packages
+  include_tasks: packages/{{ ansible_pkg_mgr }}.yml
+
+- name: Install vundle
+  include_tasks: utils/install_vundle.yml
+
+- name: Deploy dotfiles
+  include_tasks: utils/deploy_dotfiles.yml
+
+- name: Set hostname
+  include_tasks: utils/set_hostname.yml
+  when: deployment_hostname is defined
+
+- name: OS-specific tasks
+  include_tasks: "{{ lookup('first_found', files) }}"
+  vars:
+    files:
+      - "vm/{{ ansible_user }}.yml"
+      - "vm/{{ ansible_distribution | lower }}.yml"
+      - "vm/{{ ansible_os_family | lower }}.yml"

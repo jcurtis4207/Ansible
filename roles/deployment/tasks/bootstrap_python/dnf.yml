@@ -1,0 +1,11 @@
+---
+- name: Bootstrap python
+  block:
+    - name: Test Connection
+      stat:
+        path: /etc/hosts
+  rescue:
+    - name: Bootstrap Python
+      become: true
+      raw: dnf install python3 --yes
+      changed_when: yes

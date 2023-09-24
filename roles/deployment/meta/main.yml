@@ -1,0 +1,7 @@
+galaxy_info:
+  author: Jacob Curtis
+  description: Deployment of Linux machines
+  license: GPL-2.0-or-later
+  min_ansible_version: '2.14'
+  galaxy_tags: []
+dependencies: []

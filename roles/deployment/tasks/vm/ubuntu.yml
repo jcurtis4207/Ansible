@@ -1,0 +1,12 @@
+---
+- name: Set static IP
+  include_tasks: static_ip/ubuntu.yml
+  when: deployment_static_ip is defined
+
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: Reboot Machine
+  become: true
+  command: shutdown -r 1
+  changed_when: yes

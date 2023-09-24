@@ -1,0 +1,24 @@
+---
+- name: Get interface list  # noqa: risky-shell-pipe
+  shell: ip a | cut -d ' ' -f2 | tr ':' '\n' | awk NF
+  register: ifaces
+  changed_when: no
+
+- name: List interfaces
+  debug:
+    msg: "{{ ifaces.stdout_lines }}"
+
+- name: Select interface
+  pause:
+    prompt: Select Interface
+  register: interface
+
+- name: Set Static IP
+  become: true
+  blockinfile:
+    path: /etc/dhcpcd.conf
+    block: |
+        interface {{ interface.user_input }}
+        static ip_address={{ deployment_static_ip }}
+        static routers=192.168.1.1
+        static domain_name_servers=192.168.1.1

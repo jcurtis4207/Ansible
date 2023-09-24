@@ -1,0 +1,7 @@
+---
+distro_variable: DEBIAN
+ansible_python_interpreter: /usr/bin/python3
+
+ansible_ssh_password: raspberry
+ansible_password: raspberry
+ansible_user: pi

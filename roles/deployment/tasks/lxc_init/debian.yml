@@ -1,0 +1,12 @@
+---
+- name: Install ssh
+  command: pct exec {{ deployment_container_id }} -- apt install openssh-server -y
+  changed_when: yes
+
+- name: Enable root login
+  command: pct exec {{ deployment_container_id }} -- sed -i 's/.*PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config
+  changed_when: yes
+
+- name: Restart ssh service
+  command: pct exec {{ deployment_container_id }} -- systemctl restart ssh
+  changed_when: yes

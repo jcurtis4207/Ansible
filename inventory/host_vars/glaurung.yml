@@ -1,0 +1,10 @@
+---
+ansible_host: 192.168.1.77
+ansible_user: pi
+
+
+# ---------------------------------------
+#  deployment role variables
+# ---------------------------------------
+deployment_hostname: glaurung
+deployment_static_ip: 192.168.1.77

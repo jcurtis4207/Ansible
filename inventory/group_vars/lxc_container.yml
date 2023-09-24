@@ -1,0 +1,3 @@
+---
+deployment_type: lxc
+deployment_lxc_host: sauron

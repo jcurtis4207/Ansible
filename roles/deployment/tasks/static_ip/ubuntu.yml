@@ -1,0 +1,21 @@
+---
+- name: Set IP to Static
+  become: true
+  lineinfile:
+    path: /etc/netplan/00-installer-config.yaml
+    regexp: 'dhcp4: true'
+    line: '      dhcp4: no'
+    state: present
+
+- name: Define Static IP
+  become: true
+  blockinfile:
+    path: /etc/netplan/00-installer-config.yaml
+    insertafter: 'dhcp4: no'
+    block: |
+      # indentation comment
+            dhcp6: no
+            addresses: [{{ deployment_static_ip }}/24]
+            gateway4: 192.168.1.1
+            nameservers:
+              addresses: [192.168.1.1]

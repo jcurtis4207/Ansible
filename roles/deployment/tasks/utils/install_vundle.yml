@@ -1,0 +1,7 @@
+---
+- name: Install Vundle  # noqa: latest
+  git:
+    repo: 'https://github.com/VundleVim/Vundle.vim.git'
+    dest: "{{ __user_home }}/.vim/bundle/Vundle.vim"
+    clone: yes
+    update: yes

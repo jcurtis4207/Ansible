@@ -1,0 +1,52 @@
+---
+- name: Setup container
+  delegate_to: "{{ deployment_lxc_host }}"
+  become: yes
+  block:
+    - name: Get OS type  # noqa: risky-shell-pipe
+      shell: pct exec {{ deployment_container_id }} -- cat /etc/os-release | grep ^ID
+      register: id_result
+      changed_when: no
+
+    - name: Initialize LXC SSH - Debian
+      include_tasks: lxc_init/debian.yml
+      when: "'debian' in id_result.stdout"
+
+    - name: Initialize LXC SSH - Rocky
+      include_tasks: lxc_init/rocky.yml
+      when: "'rocky' in id_result.stdout"
+
+- name: Gather gather_facts
+  setup:
+
+- name: Get user home dir
+  user:
+    name: "{{ ansible_user }}"
+    state: present
+  register: user_info
+
+- name: Bootstrap python
+  include_tasks: bootstrap_python/{{ ansible_pkg_mgr }}.yml
+
+- name: Copy ansible ssh key
+  include_tasks: utils/copy_ansible_ssh_key.yml
+
+- name: Add Beowulf SSH Key
+  lineinfile:
+    path: "{{ __user_home }}/.ssh/authorized_keys"
+    line: "{{ deployment_beowulf_ssh_key }}"
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: Set Timezone
+  become: true
+  timezone:
+    name: America/New_York
+
+- name: Install packages
+  include_tasks: packages/{{ ansible_pkg_mgr }}.yml
+
+- name: Install vundle
+  include_tasks: utils/install_vundle.yml
+
+- name: Deploy dotfiles
+  include_tasks: utils/deploy_dotfiles.yml
