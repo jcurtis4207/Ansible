@@ -1,5 +1,5 @@
 ---
-- name: Gather gather_facts
+- name: Gather facts
   setup:
 
 - name: Get user home dir

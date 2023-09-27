@@ -18,7 +18,7 @@
             autoremove: yes
 
     - name: Redhat
-      when: ansible_os_family in ['Rocky', 'Redhat']
+      when: ansible_os_family in ['Rocky', 'RedHat']
       block:
         - name: Yum upgrade
           yum:

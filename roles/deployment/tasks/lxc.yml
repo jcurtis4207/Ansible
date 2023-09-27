@@ -16,7 +16,7 @@
       include_tasks: lxc_init/rocky.yml
       when: "'rocky' in id_result.stdout"
 
-- name: Gather gather_facts
+- name: Gather facts
   setup:
 
 - name: Get user home dir
