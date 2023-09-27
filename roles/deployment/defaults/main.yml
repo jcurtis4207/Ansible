@@ -17,3 +17,4 @@ deployment_dnf_package_list:
 
 deployment_dotfiles_directory: /tmp/Dotfiles
 deployment_beowulf_ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILbBc7ct57HcSGWoIdqjDPhEmU5iC8hBoEMHao68eN6C jacob@Beowulf"
+deployment_container_id: "{{ ansible_host | split('.') | last }}"
