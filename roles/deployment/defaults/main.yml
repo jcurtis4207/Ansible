@@ -14,6 +14,7 @@ deployment_dnf_package_list:
   - python3-pip
   - rsync
   - wget
+  - tar
 
 deployment_dotfiles_directory: /tmp/Dotfiles
 deployment_beowulf_ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILbBc7ct57HcSGWoIdqjDPhEmU5iC8hBoEMHao68eN6C jacob@Beowulf"

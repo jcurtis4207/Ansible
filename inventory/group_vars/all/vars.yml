@@ -1,2 +1,12 @@
 ---
 deployment_type: vm
+
+
+# ---------------------------------------
+#  backup playbook variables
+# ---------------------------------------
+backup_source_become: no
+backup_create_archive: yes
+backup_from_script: no
+backup_target_host: 192.168.1.130
+backup_delegate_target: morgoth

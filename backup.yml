@@ -1,0 +1,56 @@
+---
+- name: Backup Machines
+  hosts: backup_hosts
+  gather_facts: yes
+  tasks:
+    - name: Create backup directory
+      file:
+        path: "{{ backup_target_dir }}"
+        state: directory
+        mode: '777'
+      delegate_to: "{{ backup_delegate_target }}"
+
+    # Create tgz of the specified directory
+    - name: Create compressed archive
+      archive:
+        path: "{{ backup_source_dir }}"
+        dest: "{{ backup_archive }}"
+        mode: '755'
+      when: backup_create_archive
+      become: "{{ backup_source_become }}"
+
+    # Run a local script to create a backup archive
+    - name: Generate backup using script
+      command: "{{ backup_generate_script }}"
+      register: result
+      changed_when: result.rc == 0
+      when: backup_from_script
+
+    - name: Copy backup to target  # noqa: command-instead-of-shell
+      shell: "scp {{ backup_archive }} {{ backup_target_user }}@{{ backup_target_host }}:{{ backup_target_dir }}"
+      register: scp_result
+      changed_when: scp_result.rc == 0
+
+    # Delete the tgz created earlier
+    # NOTE: Archives created using a script must be cleaned up in the script
+    - name: Delete compressed archive
+      file:
+        path: "{{ backup_archive }}"
+        state: absent
+      when: backup_create_archive
+      become: "{{ backup_source_become }}"
+
+    - name: Find old archives
+      find:
+        paths: /mnt/pool/backups/CONTAINERS/dokuwiki/
+        recurse: no
+        age: 30d
+      register: files_to_delete
+      delegate_to: "{{ backup_delegate_target }}"
+
+    - name: Delete old archives
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      loop: "{{ files_to_delete.files }}"
+      delegate_to: "{{ backup_delegate_target }}"

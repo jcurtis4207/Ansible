@@ -1,3 +1,11 @@
 ---
 ansible_host: 192.168.1.213
 ansible_user: root
+
+# ---------------------------------------
+#  backup playbook variables
+# ---------------------------------------
+backup_source_dir: /var/www/html
+backup_archive: /tmp/homer_{{ ansible_date_time.iso8601_basic_short }}.tgz
+backup_target_user: homer
+backup_target_dir: /mnt/pool/backups/CONTAINERS/homer/

@@ -8,3 +8,13 @@ ansible_user: jacob
 # ---------------------------------------
 deployment_hostname: docker-debian
 deployment_static_ip: 192.168.1.202
+
+
+# ---------------------------------------
+#  backup playbook variables
+# ---------------------------------------
+backup_source_become: yes
+backup_source_dir: /home/jacob/Docker
+backup_archive: /tmp/docker_{{ ansible_date_time.iso8601_basic_short }}.tgz
+backup_target_user: docker
+backup_target_dir: /mnt/pool/backups/CONTAINERS/docker/
