@@ -1,0 +1,20 @@
+---
+ansible_host: 192.168.1.206
+ansible_user: jacob
+
+
+# ---------------------------------------
+#  deployment role variables
+# ---------------------------------------
+deployment_hostname: apache-debian
+deployment_static_ip: 192.168.1.206
+
+
+# ---------------------------------------
+#  backup playbook variables
+# ---------------------------------------
+backup_source_dir: /var/www/
+backup_source_become: yes
+backup_archive: /tmp/apache_{{ ansible_date_time.iso8601_basic_short }}.tgz
+backup_target_user: apache
+backup_target_dir: /mnt/pool/backups/CONTAINERS/apache/

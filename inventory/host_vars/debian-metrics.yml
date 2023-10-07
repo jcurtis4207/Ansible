@@ -1,0 +1,14 @@
+---
+ansible_host: 192.168.1.203
+ansible_user: root
+
+
+# ---------------------------------------
+#  backup playbook variables
+# ---------------------------------------
+backup_create_archive: no
+backup_from_script: yes
+backup_generate_script: python3 /root/grafana_dashboard_backup.py
+backup_archive: /root/backups/*.tgz
+backup_target_user: metrics
+backup_target_dir: /mnt/pool/backups/CONTAINERS/metrics/
