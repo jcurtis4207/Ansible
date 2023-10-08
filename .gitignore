@@ -1,3 +1,4 @@
 .vscode/
 ansible.cfg
 .ansible-lint
+hacking.yml
