@@ -17,11 +17,11 @@
 - name: Setup ssh
   include_tasks: utils/setup_ssh.yml
 
-- name: Set locale
-  include_tasks: locale/{{ ansible_os_family | lower }}.yml
-
 - name: Install packages
   include_tasks: packages/{{ ansible_pkg_mgr }}.yml
+
+- name: Set locale
+  include_tasks: locale/{{ ansible_os_family | lower }}.yml
 
 - name: Install vundle
   include_tasks: utils/install_vundle.yml

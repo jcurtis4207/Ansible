@@ -6,6 +6,8 @@ deployment_apt_package_list:
   - python3
   - python3-pip
   - rsync
+  - locales
+  - less
 
 deployment_dnf_package_list:
   - git
@@ -15,6 +17,7 @@ deployment_dnf_package_list:
   - rsync
   - wget
   - tar
+  - less
 
 deployment_dotfiles_directory: /tmp/Dotfiles
 deployment_beowulf_ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILbBc7ct57HcSGWoIdqjDPhEmU5iC8hBoEMHao68eN6C jacob@Beowulf"

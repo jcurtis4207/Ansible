@@ -3,8 +3,9 @@
   become: true
   lineinfile:
     path: /etc/netplan/00-installer-config.yaml
-    regexp: 'dhcp4: true'
-    line: '      dhcp4: no'
+    regexp: '(.*)dhcp4: true'
+    line: '\1dhcp4: no'
+    backrefs: yes
     state: present
 
 - name: Define Static IP
@@ -16,6 +17,8 @@
       # indentation comment
             dhcp6: no
             addresses: [{{ deployment_static_ip }}/24]
-            gateway4: 192.168.1.1
+            routes:
+              - to: default
+                via: 192.168.1.1
             nameservers:
               addresses: [192.168.1.1]
