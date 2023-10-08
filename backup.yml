@@ -21,10 +21,10 @@
 
     # Run a local script to create a backup archive
     - name: Generate backup using script
-      command: "{{ backup_generate_script }}"
+      script: "{{ backup_script_cmd }}"
       register: result
       changed_when: result.rc == 0
-      when: backup_from_script
+      when: backup_script_cmd is defined
 
     - name: Copy backup to target  # noqa: command-instead-of-shell
       shell: "scp {{ backup_archive }} {{ backup_target_user }}@{{ backup_target_host }}:{{ backup_target_dir }}"

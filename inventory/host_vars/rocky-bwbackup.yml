@@ -7,8 +7,7 @@ ansible_user: root
 #  backup playbook variables
 # ---------------------------------------
 backup_create_archive: no
-backup_from_script: yes
-backup_generate_script: /root/scripts/create_encrypted_backup.sh
+backup_script_cmd: scripts/bitwarden_vault_backup.py -u {{ bitwarden_username }} -p {{ bitwarden_password }}
 backup_archive: /root/backups/*
 backup_target_user: bitwarden
 backup_target_dir: /mnt/pool/backups/CONTAINERS/bitwarden/
